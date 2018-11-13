@@ -1,25 +1,40 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import './App.css';
+import Navbar from './components/navbar/Navbar';
+import Home from './components/home/Home';
+import Products from './components/product/Products';
+import Product from './components/product/Product';
+import Cart from './components/cart/Cart';
+import CheckOut from './components/cart/CheckOut';
+import Footer from './components/footer/Footer';
+import SignUp from './components/auth/SignUp';
+import SignIn from './components/auth/SignIn';
+import ProductGrid from './components/product/ProductGrid';
+
+
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <BrowserRouter>
+          <div className="wrapper">
+            <Navbar/>
+            <Switch>
+              <Route exact path="/" component={Home}  />
+              <Route path="/products" component={Products}  />
+              <Route path="/product/:id" component={Product}  />
+              <Route path="/category/:id" component={ProductGrid}  />
+              <Route path="/cart" component={Cart}  />
+              <Route path="/checkout" component={CheckOut} />
+              <Route path="/signin" component={SignIn}  />
+              <Route path="/signup" component={SignUp}  />
+            </Switch>
+            <Footer />
+          </div>
+        </BrowserRouter>
+        
       </div>
     );
   }

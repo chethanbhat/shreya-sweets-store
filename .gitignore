@@ -9,6 +9,17 @@
 # production
 /build
 
+# firebase config
+
+.firebaserc
+firebase.json
+
+# firestore cloud functions
+/functions
+
+# config
+/src/config
+
 # misc
 .DS_Store
 .env.local
