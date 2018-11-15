@@ -9,8 +9,7 @@
 # production
 /build
 
-# firebase config
-
+# firebase
 .firebaserc
 firebase.json
 

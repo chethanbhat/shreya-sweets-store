@@ -7,8 +7,8 @@ import CatSidebar from './CatSidebar';
 
 class ProductGrid extends Component {
   render(){
-    const {products, categoryName} = this.props
-    if(products){
+    const {products, categoryName} = this.props;
+    if(products.length > 0){
       return (
         <div className="row">
         <div className="col s2 sidebar-col red lighten-5">
@@ -16,7 +16,7 @@ class ProductGrid extends Component {
         </div>
         <div className="col s10">
         <h3 className="center">{categoryName}</h3>
-          {products && products.map((item,index) => {
+          {products && products.map((item, index) => {
               return (
                 <div className="col s12 m2" key={index}>
                   <Card item={item}/>
@@ -40,33 +40,21 @@ class ProductGrid extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const category = ownProps.match.params.id;
-  const allProducts = state.firestore.data.products;
+  const allProducts = state.firestore.ordered.products;
   let products = [];
   let categoryName = '';
   if(allProducts){
     switch (category) {
       case 'traditional-sweets':
-        Object.keys(allProducts).forEach(key => {
-          if(allProducts[key].category === 'traditional') {
-            products.push(allProducts[key]);
-          }
-        });
+        products = allProducts.filter(item => item.category === 'traditional');
         categoryName = 'Traditional Sweets';
         break;
       case 'bengali-sweets':
-        Object.keys(allProducts).forEach(key => {
-          if(allProducts[key].category === 'bengali') {
-            products.push(allProducts[key]);
-          }
-        });
+        products = allProducts.filter(item => item.category === 'bengali');
         categoryName = 'Bengali Sweets';
         break;
       case 'dry-fruit-sweets':
-          Object.keys(allProducts).forEach(key => {
-          if(allProducts[key].category === 'dry fruit') {
-            products.push(allProducts[key]);
-          }
-        });
+        products = allProducts.filter(item => item.category === 'dry fruit');
         categoryName = 'Dry Fruit Sweets';
         break;            
       default:
