@@ -19,6 +19,12 @@ const authReducer = (state = initState, action) => {
     case 'SIGNOUT_SUCCESS':
       console.log('signout success');
       return state;    
+    case 'UPDATE_USER_SUCCESS':
+      console.log('user data updated successfully');
+      return state;  
+    case 'UPDATE_USER_ERROR':
+      console.log('user data update failed', action.err);
+      return state;  
     default: 
       return state;  
   }

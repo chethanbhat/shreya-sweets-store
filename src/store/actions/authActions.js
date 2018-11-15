@@ -9,7 +9,8 @@ export const signUp = (newUser) => {
       return firestore.collection('users').doc(response.user.uid).set({
         firstName: newUser.firstName, 
         lastName: newUser.lastName,
-        initials: newUser.firstName[0] + newUser.lastName[0]
+        initials: newUser.firstName[0] + newUser.lastName[0],
+        email: newUser.email
       })
     })
     .then(() => {
@@ -36,10 +37,24 @@ export const signIn = (credentials) => {
 
 
 export const signOut = () => {
-  return (dispatch, getState, {getFirebase}) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firebase = getFirebase();
     firebase.auth().signOut().then(() => {
       dispatch({type: 'SIGNOUT_SUCCESS'})
     });
+  }
+}
+
+export const updateUser = (data) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    const userID = getState().firebase.auth.uid;
+    firestore.collection('users').doc(userID).update(data)
+      .then(() => {
+        dispatch({type: 'UPDATE_USER_SUCCESS'})
+      })
+      .catch((err) => {
+        dispatch({type: 'UPDATE_USER_ERROR', err})
+      })
   }
 }

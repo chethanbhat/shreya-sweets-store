@@ -14,7 +14,7 @@ class Card extends Component {
     this.props.addToCart(this.props.item);
   }
   render() {
-    const {item} = this.props
+    const {item, auth} = this.props
     return (
         <div className="card small product-card">
           <div className="card-image">
@@ -27,7 +27,10 @@ class Card extends Component {
             <h5 className="card-product-title center">{item.name}</h5>
             </Link>
             <p className="center">{`Rs ${item.price}/kg`}</p>
-            <a href="/" onClick={this.handleAddToCart} className="btn-floating btn waves-effect waves-light red darken-4 add-to-cart-btn"><i className="material-icons right">add_shopping_cart</i></a>
+            {
+              auth.uid ? <a href="/" onClick={this.handleAddToCart} className="btn-floating btn waves-effect waves-light red darken-4 add-to-cart-btn"><i className="material-icons right">add_shopping_cart</i></a> : null
+            }
+
           </div>
         </div>             
     )
@@ -40,4 +43,10 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Card);
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Card);

@@ -11,6 +11,7 @@ import Footer from './components/footer/Footer';
 import SignUp from './components/auth/SignUp';
 import SignIn from './components/auth/SignIn';
 import ProductGrid from './components/product/ProductGrid';
+import Dashboard from './components/user/Dashboard';
 
 
 
@@ -28,6 +29,7 @@ class App extends Component {
               <Route path="/category/:id" component={ProductGrid}  />
               <Route path="/cart" component={Cart}  />
               <Route path="/checkout" component={CheckOut} />
+              <Route path="/dashboard" component={Dashboard}  />
               <Route path="/signin" component={SignIn}  />
               <Route path="/signup" component={SignUp}  />
             </Switch>

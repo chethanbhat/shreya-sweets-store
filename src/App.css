@@ -1,5 +1,6 @@
-.app {
-  height: 100%;
+.App {
+  min-height: 100vh;
+
 }
 
 /* Home Page */
@@ -201,4 +202,52 @@ textarea.materialize-textarea:focus:not([readonly]) + label,
 input[type=email]:not(.browser-default):focus:not([readonly]) + label,
 input[type=password]:not(.browser-default):focus:not([readonly]) + label{
   color: #b71c1c !important;
+}
+
+/* Dashboard */
+
+.dashboard-info{
+  font-size: 1.2rem;
+  font-weight: 300;
+  margin: 20px auto !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dashboard-info > * {
+  flex: 4;
+}
+
+.profile-headers {
+  flex: 1;
+  font-weight: 500;
+}
+
+.edit-profile-btn {
+  position: relative;
+  left: 90%;
+}
+
+.edit-profile-btn-grp {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.bold-text {
+  font-weight: 600;
+}
+
+.btn-grp {
+  margin: 20px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.thank-you {
+  padding: 5%;
 }

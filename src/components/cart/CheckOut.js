@@ -1,54 +1,83 @@
-import React from 'react'
+import React, {Component} from 'react'
+import {connect} from 'react-redux';
+import {firestoreConnect} from 'react-redux-firebase';
+import {compose} from 'redux';
+import Address from './Address';
+import AddAddress from './AddAddress';
+import {updateUser} from '../../store/actions/authActions';
+import {processCart, emptyCart} from '../../store/actions/cartActions';
+import {Redirect} from 'react-router-dom';
+import ThankYou from './ThankYou';
 
-export default function checkOut() {
-return (
-<div className="container">
-  <h2 className="red-text">Checkout</h2>
-  <p>We currently serve only areas of Mangalore City through Cash on Delivery.</p>
-
-    <form>
-    <h3 class="blue-text">Billing Address</h3>
-      <div class="row">
-        <div class="input-field col s6">
-          <input id="first_name" type="text" class="validate" />
-          <label for="first_name">First Name</label>
-        </div>
-        <div class="input-field col s6">
-          <input id="last_name" type="text" class="validate" />
-          <label for="last_name">Last Name</label>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="address" type="text" class="validate" />
-          <label for="Address">Address</label>
-        </div>
-      </div>
-      <div className="row">
-        <div className="input-field col s12">
-          <input id="email" type="email" className="validate" />
-          <label for="email">Email</label>
-        </div>
-        </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="zip" type="text" class="validate" />
-          <label for="Zip">ZipCode</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="zip" type="text" class="validate" />
-          <label for="Zip">ZipCode</label>
-        </div>
-      </div>
-    
-      <div class="row center-align">
-            <button class="btn waves-effect waves-light" type="submit" name="action">Place Order</button>
-          </div>
-
-    </form>
-  </div>
-)
+class CheckOut extends Component {
+state = {
+  addAddress : false,
+  processed: false,
 }
+handleSave = (data) => {
+  this.props.updateUser(data);
+  this.setState({editMode : false})
+}
+placeOrder = () => {
+  this.props.processCart(this.props.products)
+  this.props.emptyCart(this.props.products)
+  // Redirect user to dashboard
+  this.setState({
+    processed: true
+  })
+}
+render(){
+  const {user, auth} = this.props;
+  if(!auth.uid) return <Redirect to="/signin" />
+  if(this.state.processed) return <ThankYou />
+  if(user.address && user.address !== ''){
+    return (
+      <div className="container">
+        <h2 className="red-text">Checkout</h2>
+        <p>We currently serve only areas of Mangalore City through Cash on Delivery.</p>
+        <Address user={user} placeOrder={this.placeOrder}/>
+      </div>
+      )
+  }
+  else {
+    return(
+      <div className="container">
+        <h2 className="red-text">Checkout</h2>
+        <p>We currently serve only areas of Mangalore City through Cash on Delivery.</p>
+        <AddAddress user={user} handleSave={this.handleSave} />
+      </div>
+    )
+  }
+
+}
+}
+
+const mapStateToProps = (state) => {
+  const auth = state.firebase.auth;
+  const user = state.firebase.profile;
+  let products = null;
+  if(state.firestore.data.cart){
+    const productsObj = state.firestore.data.cart[`${auth.uid}`].products;
+    if(productsObj){
+      products = Object.keys(productsObj).map(i => productsObj[i]).filter(item => item)
+    }
+  }
+  return {
+    auth,
+    user,
+    products
+  }
+}
+
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateUser: (data) => dispatch(updateUser(data)),
+    processCart: (products) => dispatch(processCart(products)),
+    emptyCart: (products) => dispatch(emptyCart(products))
+  }
+}
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect((props) => [`cart/${props.auth.uid}/products`]))(CheckOut);

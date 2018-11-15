@@ -2,7 +2,6 @@ import React from 'react'
 
 export default function Footer() {
 return (
-<div>
   <footer className="page-footer red darken-4">
     <div className="row center white-text">
       <div className="col s12">
@@ -41,6 +40,5 @@ return (
       </div>
     </div>
   </footer>
-</div>
 )
 }

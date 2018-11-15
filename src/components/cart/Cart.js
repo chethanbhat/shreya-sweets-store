@@ -6,6 +6,7 @@ import {firestoreConnect} from 'react-redux-firebase';
 import {compose} from 'redux';
 import {NavLink} from 'react-router-dom';
 import {removeFromCart,emptyCart} from '../../store/actions/cartActions';
+import {Redirect} from 'react-router-dom';
 
 class cart extends Component {
   
@@ -31,7 +32,8 @@ emptyCart = (e) => {
     firestore.unsetListener(`cart/${userID}/products`);
   }
   render(){
-    const {products} = this.props;
+    const {auth, products} = this.props;
+    if(!auth.uid) return <Redirect to="/signin" />
     if(products) {
       return (
         <div className="spl-container cart-container">

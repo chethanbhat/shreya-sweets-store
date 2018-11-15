@@ -15,7 +15,7 @@ render(){
   <div className="container cart-component center card z-depth-1">
     <div className="row cart grey-text-darken-4">
       <div className="col s3">
-        <img className="cart-product-img" src={item.src} alt={item.name} />
+        <img className="cart-product-img" src={`/${item.src}`} alt={item.name} />
       </div>
       <div className="col s3 center">
         <h5>{item.name}</h5>

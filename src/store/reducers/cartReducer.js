@@ -18,11 +18,14 @@ const cartReducer = (state = initState, action) => {
       console.log(action.message);
       return state;
     case 'EMPTY_CART_ERROR': 
-      console.log(action.err);
+      console.log('Cart cannot be reset', action.err);
       return state;      
     case 'PROCESS_CART': 
-      console.log('Cart cannot be reset', action.err);
-      return state;                  
+      console.log('Your order has been processed !');
+      return state;  
+    case 'PROCESS_CART_ERROR': 
+      console.log('Problem processing your order', action.err);
+      return state;                             
     default:
       return state;
   }

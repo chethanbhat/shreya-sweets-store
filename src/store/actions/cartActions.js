@@ -49,8 +49,23 @@ export const emptyCart = (products) => {
   }
 }
 
-export const processCart = (product) => {
+export const processCart = (products) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
-    dispatch({type: 'PROCESS_CART', product})
+    const firestore = getFirestore();
+    const userID = getState().firebase.auth.uid;
+    firestore.collection('orders').add({
+      products,
+      user: userID,
+      status: 'processed'
+    })
+    .then((docRef) => {
+      firestore.collection('users').doc(userID).update({
+        orders: firestore.FieldValue.arrayUnion(docRef.id)
+      })
+    }).then(() => {
+      dispatch({type: 'PROCESS_CART'})
+    }).catch((err) => {
+      dispatch({type: 'PROCESS_CART_ERROR', err})
+    })
   }
 }
