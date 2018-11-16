@@ -20,9 +20,9 @@ class Home extends Component {
 const mapStateToProps = (state) => {
   const products = state.firestore.ordered.products;
   if(products){
-    const traditional = products.filter(item => item.category === 'traditional');
-    const bengali = products.filter(item => item.category === 'bengali');
-    const dryFruit = products.filter(item => item.category === 'dry fruit');
+    const traditional = products.filter(item => item.category === 'traditional' && item.showcase);
+    const bengali = products.filter(item => item.category === 'bengali' && item.showcase);
+    const dryFruit = products.filter(item => item.category === 'dry fruit' && item.showcase);
     return {
       traditional,
       bengali,
