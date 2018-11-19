@@ -46,6 +46,9 @@ emptyCart = (e) => {
             })
             : null
           }
+          <div className="cart-total center">
+            <h5>Cart Total - Rs {this.props.grandTotal}</h5>
+          </div>
           <div className="cart-page-btn-group">
             <a href="/" onClick={this.emptyCart} className="waves-effect waves-light btn grey lighten-4 grey-text text-darken-3 cart-checkout-btn"><i className="material-icons right">refresh</i>Reset Cart</a>
 
@@ -67,26 +70,23 @@ emptyCart = (e) => {
 const mapStateToProps = (state) => {
   const auth = state.firebase.auth;
   let products = null;
+  let grandTotal = 0;
   if(state.firestore.data.cart){
     const productsObj = state.firestore.data.cart[`${auth.uid}`].products;
     if(productsObj){
       products = Object.keys(productsObj).map(i => productsObj[i]).filter(item => item)
     }
   }
+  if(products){
+    products.forEach(product => {
+      grandTotal += product.total;
+    })
+  }
 
-  // if(uid && state.firestore.data.cart){
-  //   if(state.firestore.data.cart[uid]) {
-  //     const cart = state.firestore.data.cart[uid].products
-  //     cart ?
-  //     // Convert Cart Objects to Product Array containg items
-  //     products = Object.keys(cart).map(i => cart[i]).filter(item => item)
-  //     : products = null;
-  //     console.log('products', products);
-  //   }
-  // }
   return {
     auth,
-    products
+    products,
+    grandTotal
   }
 }
 

@@ -152,8 +152,8 @@ h5.card-product-title {
 .cart-product-img{
   display: block;
   margin: 0 auto;
-  max-width: 150px;
-  max-height: 150px;
+  width: 100px;
+  height: 100px;
 }
 
 .quantity {
@@ -168,6 +168,13 @@ h5.card-product-title {
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
 /* Login, Signup form */
@@ -217,6 +224,22 @@ input[type=password]:not(.browser-default):focus:not([readonly]) + label{
 
 .dashboard-info > * {
   flex: 4;
+}
+
+.order-products {
+  font-size: 1.6rem;
+  font-weight: 300;
+}
+
+.order-amount {
+  font-size: 1.4rem;
+  font-weight: 300;
+}
+
+.order-status {
+  color: green;
+  font-size: 1.2rem;
+  text-transform: capitalize;
 }
 
 .profile-headers {

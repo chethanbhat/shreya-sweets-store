@@ -16,7 +16,7 @@ export default function CartHeader() {
       <h5>Price</h5>
     </div>
     <div className="col s2">
-      <h5>Quantity</h5>
+      <h5>Quantity (Kg)</h5>
     </div>
 
     <div className="col s2">

@@ -41,20 +41,20 @@ class Dashboard extends Component {
     }
   }
   render() {
-    const {user, auth} = this.props;
+    const {user, auth, orders} = this.props;
     if(!auth.uid) return <Redirect to="/signin" />
-    if(user && this.state.editMode){
-      return <EditProfile user={user} handleCancel={this.handleCancel} handleSave={this.handleSave} />
-    }
     if(!user) {
       return <p className="center">Loading.....</p>
+    }
+    if(user && this.state.editMode){
+      return <EditProfile user={user} handleCancel={this.handleCancel} handleSave={this.handleSave} />
     }
     return (
       <div className="container">
         <h3 className="center">Welcome to your Dashboard</h3>
         <div className="card">
           <div className="card-content">
-            <span className="card-title">Hello {user.firstName} {user.lastName}, Here is your profile.</span>
+            <span className="card-title center">Hello {user.firstName} {user.lastName}</span>
             <p className="dashboard-info"><span className="profile-headers">Email: </span><span className="profile-data">{user.email ? user.email : '---'}</span></p>
             <p className="dashboard-info"><span className="profile-headers">Mobile: </span><span className="profile-data">{user.mobile ? user.mobile : '---'}</span></p>
             <p className="dashboard-info"><span className="profile-headers">Address: </span><span className="profile-data">{user.address ? user.address : '---'}</span></p>
@@ -67,21 +67,41 @@ class Dashboard extends Component {
             </div>
           </div>
         </div>
+        <h3 className="center">Your Orders</h3>
+        {
+          orders ?
+            orders.map(order => {
+            return(
+              <div className="card grey lighten-4" key={order.id}>
+                <div className="card-content grey-text text-darken-4">
+                  <p className="flow-text">{order.id}</p>
+                  <p className="order-products">  
+                    {
+                      order.products.map((product, index) => (index ? ', ': '') + product.name)
+                    }
+                  </p>
+                  <p className="order-amount">Rs {order.total}</p>
+                  <p className="order-status">{order.status}</p>
+                </div>
+              </div>
+            )
+          })
+          : null
+        }
       </div>
     )
   }
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
   const auth = state.firebase.auth;
-  let user = null;
-  if(state.firestore.ordered.users){
-    user = state.firestore.ordered.users[0];
-  }
-  
+  const user = state.firebase.profile;
+  const orders = state.firestore.ordered.orders;
   return {
     auth,
-    user
+    user,
+    orders
   };
 }
 
@@ -93,6 +113,6 @@ const mapDispatchToProps = (dispatch) => {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect((props) => [`users/${props.auth.uid}`]),
+  firestoreConnect((props) => [`users/${props.auth.uid}/orders`, `orders`]),
   firebaseConnect()
 )(Dashboard);

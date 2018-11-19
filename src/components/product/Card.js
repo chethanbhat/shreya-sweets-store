@@ -20,7 +20,7 @@ class Card extends Component {
           <div className="card small product-card">
             <div className="card-image">
               <Link to={'/product/' + item.id}>
-                <img src={`/${item.src}`} alt={`${item.name} Shreya Sweets Mangalore`}/>
+                <img src={`${item.cloudinary}`} alt={`${item.name} Shreya Sweets Mangalore`}/>
               </Link>
             </div>
             <div className="card-content">

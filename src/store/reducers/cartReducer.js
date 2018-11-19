@@ -19,7 +19,19 @@ const cartReducer = (state = initState, action) => {
       return state;
     case 'EMPTY_CART_ERROR': 
       console.log('Cart cannot be reset', action.err);
-      return state;      
+      return state;
+    case 'INCREASE_QTY': 
+      console.log('Item quantity increased');
+      return state;
+    case 'INCREASE_QTY_ERROR': 
+      console.log('Item quantity cannot be increased', action.err);
+      return state;     
+    case 'DECREASE_QTY': 
+    console.log('Item quantity decreased');
+      return state;
+    case 'DECREASE_QTY_ERROR': 
+      console.log('Item quantity cannot be decreased', action.err);
+      return state;                       
     case 'PROCESS_CART': 
       console.log('Your order has been processed !');
       return state;  

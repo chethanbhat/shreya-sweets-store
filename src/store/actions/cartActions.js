@@ -2,6 +2,8 @@ export const addToCart = (product) => {
   return (dispatch, getState, {getFirebase, getFirestore}) => {
     const firestore = getFirestore();
     const userID = getState().firebase.auth.uid;
+    product.qty = 0.25;
+    product.total = product.qty * product.price;
     firestore.collection('cart').doc(userID).collection('products').doc(product.id).set({
       ...product
     })
@@ -56,7 +58,8 @@ export const processCart = (products) => {
     firestore.collection('orders').add({
       products,
       user: userID,
-      status: 'processed'
+      status: 'processed',
+      total:  products.reduce((total, product) => total+product.total, 0)
     })
     .then((docRef) => {
       firestore.collection('users').doc(userID).update({
@@ -67,5 +70,33 @@ export const processCart = (products) => {
     }).catch((err) => {
       dispatch({type: 'PROCESS_CART_ERROR', err})
     })
+  }
+}
+
+export const increaseQty = (product) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    const userID = getState().firebase.auth.uid;
+    firestore.collection('cart').doc(userID).collection('products').doc(product.id).update(product)
+      .then(() => {
+        dispatch({type: 'INCREASE_QTY', product})
+    })
+      .catch((err) => {
+        dispatch({type: 'INCREASE_QTY_ERROR', err})
+      })
+  }
+}
+
+export const decreaseQty = (product) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    const userID = getState().firebase.auth.uid;
+    firestore.collection('cart').doc(userID).collection('products').doc(product.id).update(product)
+      .then(() => {
+        dispatch({type: 'DECREASE_QTY', product})
+    })
+      .catch((err) => {
+        dispatch({type: 'DECREASE_QTY_ERROR', err})
+      })
   }
 }
