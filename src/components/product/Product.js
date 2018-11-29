@@ -18,7 +18,7 @@ class Product extends Component {
       <div className="container product">
         <div className="row">
           <div className="col s6">
-            <img className="product-page-img" src={`/${product.src}`} alt={`${product.name}, Shreya Sweets Mangalore`}/>
+            <img className="product-page-img" src={product.cloudinary} alt={`${product.name}, Shreya Sweets Mangalore`}/>
           </div>
       <div className="col s6">
         <h3>{product.name}</h3>

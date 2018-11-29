@@ -42,7 +42,7 @@ class Dashboard extends Component {
   }
   render() {
     const {user, auth, orders} = this.props;
-    if(!auth.uid) return <Redirect to="/signin" />
+    // if(!auth.uid) return <Redirect to="/signin" />
     if(!user) {
       return <p className="center">Loading.....</p>
     }
@@ -54,7 +54,7 @@ class Dashboard extends Component {
         <h3 className="center">Welcome to your Dashboard</h3>
         <div className="card">
           <div className="card-content">
-            <span className="card-title center">Hello {user.firstName} {user.lastName}</span>
+            <span className="card-title center">Hello, {user.firstName} {user.lastName} !</span>
             <p className="dashboard-info"><span className="profile-headers">Email: </span><span className="profile-data">{user.email ? user.email : '---'}</span></p>
             <p className="dashboard-info"><span className="profile-headers">Mobile: </span><span className="profile-data">{user.mobile ? user.mobile : '---'}</span></p>
             <p className="dashboard-info"><span className="profile-headers">Address: </span><span className="profile-data">{user.address ? user.address : '---'}</span></p>
